@@ -1,9 +1,7 @@
 package org.bridgelabz.utility;
-
+import java.time.Instant;
 import java.util.Random;
 import java.util.Scanner;
-
-
 public class Utility 
 {
 	/*
@@ -38,6 +36,11 @@ public class Utility
 		float n=scn.nextFloat();
 		return n;
 	}
+	public static byte getByte()
+	{
+		byte b=scn.nextByte();
+		return b;
+	}
 	/*
 	 * this method is used to convert the n value into 2^n
 	 * @parameter i is indicating the base value
@@ -52,9 +55,9 @@ public class Utility
 			pw=pw*i;
 			n--;
 		}
-		
+
 		return pw;
-		
+
 	}
 	/*
 	 * this method is used to check and return triplet values
@@ -246,7 +249,7 @@ public class Utility
 	 * @param two distance values from user
 	 *@return calculated the Euclidean distance
 	 */
-	public static double distanceCal(int x, int y) 
+	public static double distanceCal(double x, double y) 
 	{
 		double r=Math.pow(x,2);          // square of first distance 
 		double r1=Math.pow(y, 2);        // square of second distance
@@ -261,16 +264,22 @@ public class Utility
 	 */
 	public int pow(int i, int n)
 	{
-	  int pw=1;
-	  //loop for generate power 
-	  while(n>0)   
-	  {
-		  pw=pw*i;
-		  n--;
-	  }
-	return pw;
+		int pw=1;
+		//loop for generate power 
+		while(n>0)   
+		{
+			pw=pw*i;
+			n--;
+		}
+		return pw;
 	}
-	
+	/*
+	 * @param user String 
+	 * @param starting index 
+	 * @param last index
+	 * prints the permutation arrangements
+	 */
+
 	public static void permutation(String st, int i, int j) 
 	{
 		if(i==j)
@@ -279,14 +288,16 @@ public class Utility
 		{
 			for (int k=i;k<=j;k++) 
 			{
-               st=swap(st,i,k);
-               permutation(st,i+1,j);
-               st=swap(st,i,k);
+				st=swap(st,i,k);      //call swap method
+				permutation(st,i+1,j);// recursion call 
+				st=swap(st,i,k);
 			}
 		}
-		System.out.println(st);
 	}
-	
+	/*
+	 * @param String,first index,second index
+	 * 
+	 */
 	private static String swap(String st, int pos1, int pos2) 
 	{
 		char temp;
@@ -296,8 +307,276 @@ public class Utility
 		charArray[pos2]=temp;
 		return String.valueOf(charArray);
 	}
+	/*
+	 * method to find out the Quadratic eqation 
+	 * @param of three values(a,b,c)
+	 * prints the roots of the equation 
+	 */
+	public static void quadratic(double a, double b, double c)
+	{
+		double x1,x2;
+		// check a value 
+		if(a==0)
+		{
+			System.out.println("Not a Quadratic equation");
+		}
+		else 
+		{
+			// find out the delta value
+			double delta=b*b-4*a*c;
+
+			// check delta is greater
+			if(delta>0) 
+			{
+				System.out.println("roots are and unequal");
+				// if then find the roots by using sqrt function and print the roots
+				x1=(-b+Math.sqrt(delta))/2*a;
+				x2=(-b-Math.sqrt(delta))/2*a;
+				System.out.println("first root :"+x1);
+				System.out.println("first root :"+x2);
+			}
+			// check is delta is 0
+			else if(delta==0)
+			{
+				System.out.println("roots are and equal");
+				// calculate the root and print
+				x1=(-b+Math.sqrt(delta))/2*a;
+				System.out.println("first root :"+x1);
+			}
+			// if delta is negative
+			else
+			{
+				System.out.println("roots are complex");
+				//calculate the real and complex root and print 
+				double a1=-b/(2*a);
+				double a2=Math.sqrt(-delta)/(2*a);
+				System.out.println("first root :"+a1+" i"+a2);
+				System.out.println("Second root :"+a1+" -i"+a2);
+			}
+		}
+
+	}
+	/*
+	 * method to calculate the Windchill
+	 * @param t is Temperature
+	 * @param v is Wind force
+	 * prints the windchill result
+	 */
+	public static void  windchillcal(double t, double v) 
+	{
+		//temperature should be less than 50
+		if(t<50)  
+		{
+			//wind speed should be in range
+			if(v>3 && v<120)
+			{
+				//formula to calculate the windchill
+				double res=35.74+0.6215*t+(0.4275*t-35.75)*(Math.pow(v, 0.16));
+				System.out.println("The wind chill is: "+res);
+			}
+			else 
+			{
+				System.out.println("Entered wind value is not in range :");
+			}
+		}
+		else
+			System.out.println("Entered temperature is not in range :");
+	}
+	/*
+	 * method to count the distinct coupon number
+	 * compare the user value with random 
+	 * print the number of count
+	 */
+	public static int couponCom(int[] ar) 
+	{
+		int n=ar.length;
+		int count=0;
+		// call the method to get highest array element
+		int hig=Utility.highest(ar);
+		while(n>0)
+		{
+			Random rn=new Random();
+			//generate the random number upto highest element
+			int res=rn.nextInt(hig+1);
+			// loop to count total number
+			for(int i=0;i<n;i++)
+			{
+				count++;
+				//compare random with array element
+				if(res==ar[i])
+				{
+					ar[i]=ar[n-1]; //if elements are same then decrement array length
+					n--;
+				}
+			}
+		}
+		return count;
+
+	}
+	/*
+	 * check the highest element in an array
+	 * using bubble sort 
+	 * @return value
+	 */
+	private static int highest(int[] ar)
+	{
+		int arr[]=Utility.bubbleSort(ar);
+		return arr[ar.length-1];
+	}
+	/*
+	 * 
+	 */
+	public static int[]  bubbleSort(int ar[])
+	{
+		for(int i=0;i<ar.length;i++)
+		{
+			for(int j=i+1;j<ar.length;j++)
+			{
+				if(ar[i]>ar[j])
+				{
+					int temp=ar[i];
+					ar[i]=ar[j];
+					ar[j]=temp;
+				}
+			}
+		}
+
+		return ar;
+	}
+	public static void primeRange(int n) 
+	{
+		for(int i=0;i<=n;i++)
+		{
+			int temp=0;
+			for(int j=2;j<=i-1;i++)
+			{
+				if(i%j==0)
+				{
+					temp=temp+1;
+				}
+			}
+			if(temp==0)
+			{
+				System.out.println(i);
+			}
+		}
+	}
+	public static void stopWatch() 
+	{
+		boolean flag=false;
+		long start=0,stop=0;
+		while(true)
+		{
+			System.out.println("Enter 1 to start the stopwatch and 0 to stop the watch");
+			byte b1=Utility.getByte();
+			if(b1==1)
+			{
+				start=Instant.now().toEpochMilli();
+				flag=true;
+			}
+			else if(b1==0||flag)
+			{
+				stop=Instant.now().toEpochMilli();
+				break;
+			}
+			else 
+			{
+				System.out.println("please, enter the valid key");
+			}
+		}
+		System.out.println("The total time elapsed between start and stop is: "+((stop-start)/1000)+"seconds "+(stop-start)%1000+"milli-seconds");
+	}
+	public static int binarySearch(int[] arr, int l, int h,int x) 
+	{
+		if(h>=l)
+		{
+			int mid=l+(h-l)/2;
+			if(arr[mid]==x)
+				return mid;
+			if(arr[mid]>x)
+				return binarySearch(arr,l,mid-1,x);
+			return binarySearch(arr,mid+1,h,x);
+		}
+		return -1;
+	}
+
+	public static int[] insertionSort(int[] arr)
+	{
+		int n=arr.length;
+		for(int i=1;i<n;i++)
+		{
+			int point=arr[i];
+			int j=i-1;
+			while(j>=0 && arr[j]>point)
+			{
+				arr[j+1]=arr[j];
+				j=j-1;
+			}
+			arr[j+1]=point;
+		}
+		return arr;
+	}
+	public static int binSearchString(String[] str, String x)
+	{
+		int low=0;
+		int high=str.length-1;
+		int mid=(low+high)/2;
+		if(str[mid].compareTo(x)>0) {
+			high=mid-1;
+		}
+		else if(str[mid].compareTo(x)<0)
+		{
+			low=mid+1;
+		}
+		else
+		{
+			return mid;
+		}
+		return -1;
+
+	}
+	public static void tempConversion(byte b) 
+	{
+		if(b==1)
+		{
+			System.out.println("enter the celsius value");
+			double cl=Utility.getDouble();
+			double res=(cl*9/5+32);
+			System.out.println("the converted fahrenheit value is : "+res);
+		}
+		else if(b==2)
+		{
+			System.out.println("Enter the fahrenheit value ");
+			double fh=Utility.getDouble();
+			double res1=((fh-32)*5/9);
+			System.out.println("the converted celsius value is :"+res1);
+		}
+		else
+		{
+			System.out.println("Please, press the valid key ");
+		}
+	}
+	public static void sqrtNewton(double c) 
+	{
+		double t=c;
+		double epsilon=1e-15;
+		while(Math.abs(t-c/t)>epsilon*t)
+		{
+			t=(c/t+t)/2.0;
+		}
+		System.out.println(t);
+	}
+	public static void monthlyPayment(long principle, float rate, float year)
+	{
+		double R=rate/(12*100);
+		float n=12*year;
+		double delta=Math.pow((1+R), -n);
+		double payment=((principle*R)/(1-delta));
+		System.out.println("The monthly payment is :"+payment);
+	}
+
 }
-	
-	
-	
-	
+
+
+
+

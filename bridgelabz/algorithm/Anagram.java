@@ -6,7 +6,7 @@
  * @version - 1.0
  * @since 12/12/2018
  */
-package org.bridgelabz.functional;
+package org.bridgelabz.algorithm;
 
 import org.bridgelabz.utility.*;
 
