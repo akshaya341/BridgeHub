@@ -1,5 +1,6 @@
 package org.bridgelabz.utility;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 public class Utility 
@@ -41,6 +42,8 @@ public class Utility
 		byte b=scn.nextByte();
 		return b;
 	}
+	
+	
 	/*
 	 * this method is used to convert the n value into 2^n
 	 * @parameter i is indicating the base value
@@ -443,24 +446,48 @@ public class Utility
 
 		return ar;
 	}
-	public static void primeRange(int n) 
+	public static String[]  bubbleSort(String ar[])
 	{
-		for(int i=0;i<=n;i++)
+		for(int i=0;i<ar.length;i++)
 		{
-			int temp=0;
-			for(int j=2;j<=i-1;i++)
+			for(int j=i+1;j<ar.length;j++)
 			{
-				if(i%j==0)
+				if(ar[i].compareToIgnoreCase(ar[j])>0)
 				{
-					temp=temp+1;
+					String temp=ar[i];
+					ar[i]=ar[j];
+					ar[j]=temp;
 				}
 			}
-			if(temp==0)
+		}
+
+		return ar;
+	}
+	
+	public static void primeRange(int n) 
+	{
+		for (int i = 2; i <n; i++) 
+		{
+			if(Utility.isprime(i))
 			{
-				System.out.println(i);
+				System.out.print(i+" ");
 			}
 		}
 	}
+	public static boolean isprime(int i) 
+	{
+		int n0=2;
+		while(n0<=i/2)
+		{
+			if(i%n0==0)
+			{
+			return false;
+			}
+			n0++;
+		}
+		return true;
+	}
+	
 	public static void stopWatch() 
 	{
 		boolean flag=false;
@@ -566,6 +593,7 @@ public class Utility
 		}
 		System.out.println(t);
 	}
+	
 	public static void monthlyPayment(long principle, float rate, float year)
 	{
 		double R=rate/(12*100);
@@ -574,7 +602,69 @@ public class Utility
 		double payment=((principle*R)/(1-delta));
 		System.out.println("The monthly payment is :"+payment);
 	}
-
+	
+	public static void binWord(String[] word, String words)
+	{
+		Arrays.sort(word);
+		int index=Arrays.binarySearch(word,words);
+		if(index>0)
+		{
+		System.out.println("element found at index ="+index);
+		}
+		else
+		{
+			System.out.println("word not found !!");
+		}
+	}
+	
+	public static void dayOfWeek(byte day, byte month, int year) 
+	{
+		String ar[]= {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+		int y0=year-(14-month)/12;
+		int x=y0+y0/4-y0/100+y0/400;
+		int m0=month+12*((14-month)/12)-2;
+		int d0=(day+x+31*m0/12)%7;
+		
+		if(d0<=ar.length)
+		  {
+			 System.out.println("The day falls on "+ar[d0]); 
+		  }
+		  else
+		  {
+			  System.out.println("Invalid day");
+		  }
+	}
+	public static boolean isPalindrome(int i)
+	{
+		int temp=i;
+		int rem,rev=0;
+		while(i!=0)
+		{
+           rem=i%10;
+           rev=rev*10+rem;
+           i=i/10;
+		}
+		if(temp!=rev)
+			return false;
+		return true;
+	}
+	public static void sortTimer()
+	{
+		int ar[]= {100,200,300,400,500,600,700,800,900,1000};
+		long start=System.nanoTime();
+		Utility.bubbleSort(ar);
+		long stop=System.nanoTime();
+	    System.out.println(stop-start+"nano-seconds");
+	    
+	    int ar1[]= {100,200,300,400,500,600,700,800,900,1000};
+	    start=System.nanoTime();
+	    Utility.bubbleSort(ar1);
+	    stop=System.nanoTime();
+	    System.out.println(stop-start);
+	}
+	
+	
+	
 }
 
 
