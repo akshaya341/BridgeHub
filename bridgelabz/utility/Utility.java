@@ -655,12 +655,45 @@ public class Utility
 		Utility.bubbleSort(ar);
 		long stop=System.nanoTime();
 	    System.out.println(stop-start+"nano-seconds");
-	    
-	    int ar1[]= {100,200,300,400,500,600,700,800,900,1000};
-	    start=System.nanoTime();
-	    Utility.bubbleSort(ar1);
-	    stop=System.nanoTime();
-	    System.out.println(stop-start);
+	}
+	
+	public static void toBinary(int n) 
+	{
+		String str="";
+		
+		while(n>0)
+		{
+			int r=n%2;
+			 str=r+str;
+			 n=n/2;
+		}
+		System.out.println("Converted binary value is "+str);
+		while((str.length())!=8)
+		{
+			str="0"+str;
+			
+		}
+		System.out.println("nibble value "+str);
+		String l=str.substring(0, 4);
+		String m=str.substring(4);
+		String res=m+l;
+		System.out.println("after swaping the nibbles "+res);
+		int dec=Utility.toDecimal(res);
+		int bin=Integer.parseInt(res);
+	}
+	
+	public static int toDecimal(int res) 
+	{
+		
+		int p=0; int sum1=0;                  // method not completed
+		while(res!=0)
+		{
+			int r=res%10;
+			int sum1=(int) (sum1+r*(Math.pow(2, p)));
+			p++;
+			res=res/10;
+		}
+		return sum1;
 	}
 	
 	
